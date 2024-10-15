@@ -1,0 +1,29 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      - main  # For staging
+      - dev  # For development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+      - name: Deploy to EC2
+        run: |
+          ssh ec2-user@your-ec2-public-ip << 'EOF'
+          cd /var/www/dev-app  # Change this to /var/www/stage-app for staging
+          git pull origin dev  # Or pull from main for staging
+          docker-compose down  # Stop running containers (optional)
+          docker-compose up -d  # Deploy new version (optional)
+          EOF
