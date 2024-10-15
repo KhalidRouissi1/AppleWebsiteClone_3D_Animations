@@ -40,12 +40,9 @@ jobs:
           # Install dependencies (if using npm)
           npm install
 
-          # Build the React app
-          npm run build
-
-          # Install serve globally with sudo
+          # Install serve globally if not already installed
           sudo npm install -g serve
 
-          # Serve the build directory on port 3000
+          # Serve the application directly on port 3000 (dev mode)
           serve -s build -l 3000
           EOF
