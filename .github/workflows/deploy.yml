@@ -3,7 +3,7 @@ name: Deploy to AWS EC2
 on:
   push:
     branches:
-      - main  # For staging
+      - main  # This will trigger the action on pushes to the main branch
 
 jobs:
   deploy:
@@ -26,8 +26,25 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh ubuntu@13.60.199.116 << 'EOF'
-          cd /var/www/dev-app  # Change this to /var/www/stage-app for staging
-          git pull origin dev  # Or pull from main for staging
-          docker-compose down  # Stop running containers (optional)
-          docker-compose up -d  # Deploy new version (optional)
+          # Check if the directory exists; if not, clone the repository
+          if [ ! -d "/var/www/dev-app" ]; then
+            git clone <your-repo-url> /var/www/dev-app
+          fi
+
+          # Navigate to the application directory
+          cd /var/www/dev-app
+
+          # Pull the latest changes
+          git pull origin main
+
+          # Install dependencies (if using npm)
+          npm install
+
+          # Build the React app
+          npm run build
+
+          # Optionally, you can serve the build using a simple server or use a production server setup
+          # For example, if you want to use a static server:
+          npm install -g serve  # Install the serve package globally
+          serve -s build -l 3000  # Serve the build directory on port 3000
           EOF
