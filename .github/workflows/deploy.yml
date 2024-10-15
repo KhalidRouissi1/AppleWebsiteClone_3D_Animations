@@ -21,7 +21,7 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh ec2-user@your-ec2-public-ip << 'EOF'
+          ssh ubuntu@13.60.199.116 << 'EOF'
           cd /var/www/dev-app  # Change this to /var/www/stage-app for staging
           git pull origin dev  # Or pull from main for staging
           docker-compose down  # Stop running containers (optional)
