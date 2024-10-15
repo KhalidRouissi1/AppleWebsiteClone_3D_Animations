@@ -26,6 +26,7 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh ubuntu@13.60.199.116 << 'EOF'
+          set -x  # Enable debugging
           # Check if the directory exists; if not, clone the repository
           if [ ! -d "/var/www/dev-app" ]; then
             git clone <your-repo-url> /var/www/dev-app
@@ -40,6 +41,6 @@ jobs:
           # Install dependencies (if using npm)
           npm install
 
-          # Start the Vite development server on port 3000
-          npm run dev -- --host 0.0.0.0 --port 3001
+          # Start the Vite development server in the background
+          nohup npm run dev -- --host 0.0.0.0 --port 3001 > /var/www/dev-app/logs.log 2>&1 &
           EOF
