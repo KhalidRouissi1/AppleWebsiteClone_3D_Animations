@@ -41,5 +41,5 @@ jobs:
           npm install
 
           # Start the Vite development server on port 3000
-          npm run dev -- --host 0.0.0.0 --port 3000
+          npm run dev -- --host 0.0.0.0 --port 3001
           EOF
