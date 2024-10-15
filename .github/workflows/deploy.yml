@@ -43,8 +43,9 @@ jobs:
           # Build the React app
           npm run build
 
-          # Optionally, you can serve the build using a simple server or use a production server setup
-          # For example, if you want to use a static server:
-          npm install -g serve  # Install the serve package globally
-          serve -s build -l 3000  # Serve the build directory on port 3000
+          # Install serve globally with sudo
+          sudo npm install -g serve
+
+          # Serve the build directory on port 3000
+          serve -s build -l 3000
           EOF
